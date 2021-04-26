@@ -7,29 +7,27 @@
 // @lc code=start
 #include <bits/stdc++.h>
 using namespace std;
-
 class Solution {
   public:
     int trap(vector<int> &height) {
-        int n = height.size();
+        if (height.size() <= 2)
+            return 0;
+
         int ans = 0;
-        int tmp;
-        stack<int> wall;
-        for (int i = 0; i < n; ++i) {
-            if (height[i] < wall.top()) {
-                wall.push(height[i]);
-            } else {
-                while (height[i] >= wall.top()) {
-                    tmp = wall.top();
-                    ans += tmp * i;
-                    wall.pop();
-                }
+        stack<int> s;
+        s.push(0);
+        for (int i = 1; i < height.size(); ++i) {
+            while (height[i] > height[s.top()]) {
+                int top = s.top();
+                s.pop();
+                if (s.empty())
+                    break;
+                int distance = i - s.top() - 1;
+                int bounded_height =
+                    min(height[i], height[s.top()]) - height[top];
+                ans += distance * bounded_height;
             }
-        }
-        while (!wall.empty()) {
-            tmp = wall.top();
-            ans += tmp;
-            wall.pop();
+            s.push(i);
         }
         return ans;
     }
