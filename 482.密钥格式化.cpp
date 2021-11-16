@@ -1,0 +1,30 @@
+/*
+ * @lc app=leetcode.cn id=482 lang=cpp
+ *
+ * [482] 密钥格式化
+ */
+
+// @lc code=start
+class Solution {
+  public:
+    string licenseKeyFormatting(string s, int k) {
+        string ans;
+        int n = s.size();
+        int cnt = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            if (s[i] != '-') {
+                ans.push_back(toupper(s[i]));
+                ++cnt;
+                if (cnt % k == 0)
+                    ans.push_back('-');
+            }
+        }
+        if (ans.size() > 0 && ans.back() == '-')
+            ans.pop_back();
+
+        reverse(ans.begin(), ans.end());
+
+        return ans;
+    }
+};
+// @lc code=end
